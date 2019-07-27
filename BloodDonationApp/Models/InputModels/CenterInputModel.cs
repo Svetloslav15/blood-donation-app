@@ -1,10 +1,14 @@
 ﻿namespace BloodDonationApp.Models.InputModels
 {
-    using BloodDonationApp.Models.InputModels.Contracts;
     using System.ComponentModel.DataAnnotations;
 
-    public class CenterInputModel : ICenterInputModel
+    public class CenterInputModel
     {
+        public string Id { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+        
         [Required]
         public string Town { get; set; }
 

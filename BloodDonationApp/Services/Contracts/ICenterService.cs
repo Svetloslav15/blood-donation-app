@@ -2,7 +2,6 @@
 {
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
-    using BloodDonationApp.Models.InputModels.Contracts;
     using System.Collections.Generic;
 
     public interface ICenterService
@@ -11,11 +10,10 @@
 
         ICollection<Center> GetAllCenters();
 
-        void EditCenter(ICenterInputModel inputModel);
+        void EditCenter(CenterInputModel inputModel);
 
         Center GetCenterById(string id);
 
         void DeleteCenterById(string id);
-        
     }
 }

@@ -3,10 +3,10 @@
     using BloodDonationApp.Data;
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
-    using BloodDonationApp.Models.InputModels.Contracts;
     using BloodDonationApp.Services.Contracts;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class CenterService : ICenterService
     {
@@ -20,6 +20,7 @@
         {
             Center center = new Center()
             {
+                Name = inputModel.Name,
                 Town = inputModel.Town,
                 Address = inputModel.Address,
                 PhoneNumber = inputModel.PhoneNumber,
@@ -31,22 +32,31 @@
 
         public void DeleteCenterById(string id)
         {
-            throw new NotImplementedException();
+            var centerToRemove = this.GetCenterById(id);
+            this.dbContext.Centers.Remove(centerToRemove);
+            this.dbContext.SaveChanges();
         }
 
-        public void EditCenter(ICenterInputModel inputModel)
+        public void EditCenter(CenterInputModel inputModel)
         {
-            throw new NotImplementedException();
+            Center center = this.dbContext.Centers.FirstOrDefault(x => x.Id == inputModel.Id);
+            center.Name = inputModel.Name;
+            center.PhoneNumber = inputModel.PhoneNumber;
+            center.Email = inputModel.Email;
+            center.Address = inputModel.Address;
+            center.Town = inputModel.Town;
+
+            this.dbContext.SaveChanges();
         }
 
         public ICollection<Center> GetAllCenters()
         {
-            throw new NotImplementedException();
+            return this.dbContext.Centers.ToList();
         }
 
         public Center GetCenterById(string id)
         {
-            throw new NotImplementedException();
+            return this.dbContext.Centers.FirstOrDefault(x => x.Id == id);
         }
     }
 }
