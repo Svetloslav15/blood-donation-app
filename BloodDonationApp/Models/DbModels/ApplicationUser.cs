@@ -1,12 +1,18 @@
 ﻿namespace BloodDonationApp.Models.DbModels
 {
-    using BloodDonationApp.Models.DbModels.Contracts;
     using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
 
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+            this.Notifications = new HashSet<Notification>();
+            this.UserRequests = new HashSet<UserRequest>();
+            this.Posts = new HashSet<Post>();
+        }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

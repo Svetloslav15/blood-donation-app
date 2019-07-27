@@ -46,12 +46,34 @@ namespace BloodDonationApp.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Town")]
+            public string Town { get; set; }
+
+            [Required]
+            [Display(Name = "BloodGroup")]
+            public string BloodGroup { get; set; }
+
+            [Required]
+            [Display(Name = "PhoneNumber")]
+            [StringLength(10, ErrorMessage = "The phone length must be exact 10 symbols.")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
+            [Required]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
@@ -67,7 +89,17 @@ namespace BloodDonationApp.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName,
+                    BloodGroup = Input.BloodGroup,
+                    PhoneNumber = Input.PhoneNumber,
+                    DonatedTimesCount = 0,
+                    Town = Input.Town,
+                    LastTimeDonated = new DateTime(1900, 1, 1)
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

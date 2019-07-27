@@ -1,23 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BloodDonationApp.Models;
-using System.Net.Mail;
-using System.Net;
-
-namespace BloodDonationApp.Controllers
+﻿namespace BloodDonationApp.Controllers
 {
+    using System.Diagnostics;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using BloodDonationApp.Models;
+    using Microsoft.AspNetCore.Identity;
+    using BloodDonationApp.Models.DbModels;
+
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private UserManager<ApplicationUser> userManager;
+        public HomeController(UserManager<ApplicationUser> userManager)
         {
-            return View();
+            this.userManager = userManager;
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Index()
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var user = await this.userManager.GetUserAsync(HttpContext.User);
+                string name = user.FirstName;
+                ViewData["Name"] = name;
+                return View();
+            }
+            return this.Redirect("/Home/NotLogged");
+        }
+
+        public IActionResult NotLogged()
         {
             return View();
         }

@@ -4,46 +4,93 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>@ViewData["Title"]</h1>
+    <div class="mt-5 border-form bg-g pt-4 p-2">
+        <h1 class="text-center">@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new account.</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="col-lg-12 row">
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.FirstName" type="text" id="firstName" class="form-control">
+                                <label asp-for="Input.FirstName" for="firstName"></label>
+                                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.LastName" type="text" id="lastName" class="form-control">
+                                <label asp-for="Input.LastName" for="lastName"></label>
+                                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 row">
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.Email" type="text" id="email" class="form-control">
+                                <label asp-for="Input.Email" for="email"></label>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.Town" type="text" id="town" class="form-control">
+                                <label asp-for="Input.Town" for="town"></label>
+                                <span asp-validation-for="Input.Town" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 row">
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <span>BloodGroup</span>
+                                <select asp-for="Input.BloodGroup" class="form-control mdb-select" id="bloodGroup">
+                                    <option>0+</option>
+                                    <option>A+</option>
+                                    <option>B+</option>
+                                    <option>AB+</option>
+                                    <option>A-</option>
+                                    <option>0-</option>
+                                    <option>B-</option>
+                                    <option>AB-</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.PhoneNumber" type="text" id="phone" class="form-control">
+                                <label asp-for="Input.PhoneNumber" for="phone"></label>
+                                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 row">
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.Password" type="password" id="pass" class="form-control">
+                                <label asp-for="Input.Password" for="pass"></label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 mx-auto">
+                            <div class="md-form">
+                                <input asp-for="Input.ConfirmPassword" type="password" id="passc" class="form-control">
+                                <label asp-for="Input.ConfirmPassword" for="passc"></label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-outline-danger mb-3 z-depth-0 btn-rounded mx-auto waves-effect">Register</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">Blood Group</label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                    <option>0+</option>
-                    <option>A+</option>
-                    <option>B+</option>
-                    <option>AB+</option>
-                    <option>A-</option>
-                    <option>0-</option>
-                    <option>B-</option>
-                    <option>AB-</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Password"></label>
-                <input asp-for="Input.Password" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.ConfirmPassword"></label>
-                <input asp-for="Input.ConfirmPassword" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+        </div>
     </div>
-</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

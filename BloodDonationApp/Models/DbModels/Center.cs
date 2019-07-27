@@ -9,6 +9,7 @@
         public Center()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.Requests = new HashSet<Request>();
         }
 
         [Key]

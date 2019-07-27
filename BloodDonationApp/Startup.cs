@@ -1,15 +1,10 @@
 ﻿namespace BloodDonationApp
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.HttpsPolicy;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using BloodDonationApp.Data;
@@ -53,7 +48,12 @@
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //services.AddIdentity<ApplicationUser, IdentityRole>();
+            /*services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = "685118065281718";
+                    options.AppSecret = "a614c94ec5c20f053bacf65ea933e417";
+                });*/
 
             services.AddMvc(options =>
             {

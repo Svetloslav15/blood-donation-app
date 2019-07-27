@@ -9,6 +9,7 @@
         public Request()
         {
             this.Id = Guid.NewGuid().ToString();
+            this.UserRequests = new HashSet<UserRequest>();
         }
         
         [Key]

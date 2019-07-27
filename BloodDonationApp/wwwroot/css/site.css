@@ -54,3 +54,10 @@ body {
   height: 60px;
   line-height: 60px; /* Vertically center the text there */
 }
+.bg-g {
+    background-color: #E9EBEE;
+}
+.border-form {
+    border: 5px solid #dc3545;
+    border-radius: 6px;
+}
