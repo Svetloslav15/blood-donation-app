@@ -1,6 +1,15 @@
-﻿@{
-    ViewData["Title"] = "NotLogged";
-}
-<h1>@ViewData["Title"]</h1>
-
-<p>Use this page to detail your site's privacy policy.</p>
+﻿<div class="text-center jumbotron">
+    <h1 class="h1 mb-4">Blood Donation System</h1>
+    <h4>
+        This is platform where you can find blood centers and donate blood if needed!
+        You can find information about all centers where you can donate and where is the nearest.
+        You can donate once in a 3 months. You will receive an email and a notification
+        if your blood is needed.
+    </h4>
+    <div class="row text-center mx-auto">
+        <div class="mx-auto">
+            <a  asp-area="Identity" asp-page="/Account/Login" class="btn btn-outline-danger p-3 mr-2 waves-effect px-2 text-uppercase">Sign In</a>
+            <a  asp-area="Identity" asp-page="/Account/Register" class="btn btn-outline-danger p-3 ml-2 waves-effect px-2 text-uppercase">Sign Up</a>
+        </div>
+    </div>
+</div>

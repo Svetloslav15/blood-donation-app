@@ -63,6 +63,7 @@ namespace BloodDonationApp.Areas.Identity.Pages.Account
 
             [Required]
             [Display(Name = "PhoneNumber")]
+            [RegularExpression(@"^([0-9]{10})|(\+359[0-9]{9})$")]
             [StringLength(10, ErrorMessage = "The phone length must be exact 10 symbols.")]
             public string PhoneNumber { get; set; }
 

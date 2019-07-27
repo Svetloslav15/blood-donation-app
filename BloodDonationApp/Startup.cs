@@ -11,6 +11,8 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using BloodDonationApp.Models.DbModels;
+    using BloodDonationApp.Services.Contracts;
+    using BloodDonationApp.Services;
 
     public class Startup
     {
@@ -54,6 +56,9 @@
                     options.AppId = "685118065281718";
                     options.AppSecret = "a614c94ec5c20f053bacf65ea933e417";
                 });*/
+
+            //Add services
+            services.AddTransient<ICenterService, CenterService>();
 
             services.AddMvc(options =>
             {
