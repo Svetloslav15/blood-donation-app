@@ -13,6 +13,8 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Services.Contracts;
     using BloodDonationApp.Services;
+    using BloodDonationApp.Data.Seeding;
+    using BloodDonationApp.Extensions;
 
     public class Startup
     {
@@ -32,6 +34,9 @@
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            services.AddScoped<UserRolesSeeder>();
+            services.AddScoped<AdminUserSeeder>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -69,6 +74,8 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseDatabaseSeeding();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

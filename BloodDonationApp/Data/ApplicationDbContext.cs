@@ -59,6 +59,7 @@
               .HasOne(ur => ur.Request)
               .WithMany(u => u.UserRequests)
               .HasForeignKey(u => u.RequestId);
+
         }
     }
 }
