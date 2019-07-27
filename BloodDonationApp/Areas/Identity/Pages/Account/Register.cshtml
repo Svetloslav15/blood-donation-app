@@ -18,6 +18,19 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label for="exampleFormControlSelect1">Blood Group</label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                    <option>0+</option>
+                    <option>A+</option>
+                    <option>B+</option>
+                    <option>AB+</option>
+                    <option>A-</option>
+                    <option>0-</option>
+                    <option>B-</option>
+                    <option>AB-</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
