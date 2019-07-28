@@ -79,7 +79,7 @@
 
             // Init SmtpClient and send
             SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-            NetworkCredential credentials = new NetworkCredential("apikey", "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");
+            NetworkCredential credentials = new NetworkCredential("apikey", "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");
             smtpClient.Credentials = credentials;
 
             smtpClient.Send(mailMsg);
