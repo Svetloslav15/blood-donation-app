@@ -64,6 +64,8 @@
 
             //Add services
             services.AddTransient<ICenterService, CenterService>();
+            services.AddTransient<IRequestService, RequestService>();
+            services.AddTransient<IUserService, UserService>();
 
             services.AddMvc(options =>
             {

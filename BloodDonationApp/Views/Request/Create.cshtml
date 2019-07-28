@@ -1,0 +1,41 @@
+﻿@model BloodDonationApp.Models.InputModels.RequestInputModel
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="row jumbotron mx-auto">
+        <h2 class="text-center mx-auto">Create</h2>
+        <div class="col-md-12 mx-auto mx-auto">
+            <form asp-controller="Request" asp-action="Create" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="col-lg-12 row">
+                    <div class="col-lg-5 mx-auto">
+                        <div class="md-form mb-2">
+                            <i class="fas fa-pencil-alt prefix"></i>
+                            <textarea asp-for="Description" id="form10" class="md-textarea form-control" rows="6"></textarea>
+                            <label for="form10">Description</label>
+                        </div>
+                        <div class="md-form">
+                            <span>BloodGroup</span>
+                            <select asp-for="BloodGroup" class="form-control mdb-select" id="bloodGroup">
+                                <option>0+</option>
+                                <option>A+</option>
+                                <option>B+</option>
+                                <option>AB+</option>
+                                <option>A-</option>
+                                <option>0-</option>
+                                <option>B-</option>
+                                <option>AB-</option>
+                            </select>
+                        </div>
+                        <input asp-for="CenterId" type="hidden" id="Description" value="@ViewData["Id"]" class="form-control">
+                        <input asp-for="AuthorId" type="hidden" id="AuthorId" value="@ViewData["MyId"]" class="form-control">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input type="submit" class="btn btn-outline-danger mb-3 z-depth-0 btn-rounded mx-auto waves-effect" value="Create" />
+                </div>
+            </form>
+        </div>
+    </div>
