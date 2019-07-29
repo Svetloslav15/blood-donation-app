@@ -1,0 +1,47 @@
+﻿@model BloodDonationApp.Models.ViewModels.AllUsersViewModel
+@{
+    ViewData["Title"] = "All";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1 class="text-center my-4">Users</h1>
+    <table id="dtMaterialDesignExample" class="table table-striped" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th class="th-sm">FirstName</th>
+                <th class="th-sm">LastName</th>
+                <th class="th-sm">Email</th>
+                <th class="th-sm">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                <tr>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
+                    <td>
+                        @if (user.IsInRole)
+                        {
+                        <span class="btn btn-danger">
+                            <a class="text-white" asp-controller="User" asp-action="RemoveAdminRights" asp-route-Id="@user.Id">
+                                Remove Admin Rights
+                            </a>
+                        </span>
+                        }
+                        else
+                        {
+                            <span class="btn btn-danger">
+                                <a class="text-white" asp-controller="User" asp-action="GiveAdminRights" asp-route-Id="@user.Id">
+                                    Give Admin Rights
+                                </a>
+                            </span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

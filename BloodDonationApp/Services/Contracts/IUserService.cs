@@ -8,5 +8,7 @@
         ICollection<ApplicationUser> GetAllPotentialDonors(string bloodGroup);
 
         ApplicationUser GetUserById(string id);
+
+        ICollection<ApplicationUser> GetAllUsers();
     }
 }
