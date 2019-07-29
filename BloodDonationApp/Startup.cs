@@ -35,7 +35,7 @@
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddScoped<UserRolesSeeder>();
+            services.AddScoped<AAUserRolesSeeder>();
             services.AddScoped<AdminUserSeeder>();
 
             services.AddDbContext<ApplicationDbContext>(options =>

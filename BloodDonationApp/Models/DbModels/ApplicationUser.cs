@@ -30,5 +30,8 @@
         public ICollection<UserRequest> UserRequests { get; set; }
 
         public ICollection<Post> Posts { get; set; }
+
+        //Needed only if user is CenterAdmin
+        public string AdminCenterId { get; set; }
     }
 }

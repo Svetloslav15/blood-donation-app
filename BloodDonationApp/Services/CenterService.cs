@@ -4,6 +4,7 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -56,7 +57,10 @@
 
         public Center GetCenterById(string id)
         {
-            return this.dbContext.Centers.FirstOrDefault(x => x.Id == id);
+            return this.dbContext.Centers
+                .Include(x => x.Requests)
+                    .ThenInclude(r => r.UserRequests)
+                .FirstOrDefault(x => x.Id == id);
         }
     }
 }

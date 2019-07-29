@@ -35,5 +35,53 @@
             }
             return this.Redirect("/");
         }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var me = await this.userManager.GetUserAsync(HttpContext.User);
+            Request request = this.requestService.GetRequestById(id);
+            RequestInputModel model = new RequestInputModel
+            {
+                Id = id,
+                BloodGroup = request.BloodGroup,
+                Description = request.Description,
+                CenterId = request.CenterId,
+                AuthorId = me.Id
+            };
+
+            return this.View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(RequestInputModel inputModel)
+        {
+            if (this.ModelState.IsValid)
+            {
+                this.requestService.EditRequest(inputModel.Id, inputModel);
+            }
+            return this.Redirect("/Center/Details/" + inputModel.CenterId);
+        }
+
+        public IActionResult Delete(string centerId, string id)
+        {
+            this.requestService.DeleteRequest(id);
+            return this.Redirect("/Center/Details/" + centerId);
+        }
+
+        public async Task<IActionResult> Apply(string centerId, string requestId)
+        {
+            ApplicationUser currentUser = await this.userManager.GetUserAsync(HttpContext.User);
+            this.requestService.ApplyForRequest(currentUser, requestId);
+
+            return this.Redirect("/Center/Details/" + centerId);
+        }
+
+        public async Task<IActionResult> UnApply(string centerId, string requestId)
+        {
+            ApplicationUser currentUser = await this.userManager.GetUserAsync(HttpContext.User);
+            this.requestService.UnApplyForRequest(currentUser, requestId);
+
+            return this.Redirect("/Center/Details/" + centerId);
+        }
     }
 }

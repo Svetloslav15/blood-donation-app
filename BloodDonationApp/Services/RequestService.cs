@@ -4,10 +4,8 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Services.Contracts;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Identity;
     using System;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
     using System.Net.Mail;
 
@@ -47,19 +45,48 @@
             }
         }
 
-        public void ApplyForRequest(ApplicationUser user)
+        public void ApplyForRequest(ApplicationUser currentUser, string requestId)
         {
-            throw new System.NotImplementedException();
+            UserRequest userRequest = new UserRequest()
+            {
+                UserId = currentUser.Id,
+                RequestId = requestId
+            };
+
+            this.dbContext.UserRequests.Add(userRequest);
+            this.dbContext.SaveChanges();
         }
 
         public void DeleteRequest(string id)
         {
-            throw new System.NotImplementedException();
+            var requestToRemove = this.GetRequestById(id);
+            this.dbContext.Requests.Remove(requestToRemove);
+            this.dbContext.SaveChanges();
         }
 
-        public void EditRequest(RequestInputModel inputModel)
+        public void EditRequest(string requestId, RequestInputModel inputModel)
         {
-            throw new System.NotImplementedException();
+            Center center = this.centerService.GetCenterById(inputModel.CenterId);
+
+            Request request = this.dbContext.Requests.FirstOrDefault(x => x.Id == requestId);
+
+            request.Description = inputModel.Description;
+            request.Center = center;
+            request.BloodGroup = inputModel.BloodGroup;
+
+            this.dbContext.SaveChanges();
+
+            var allPotentialDonors = this.userService.GetAllPotentialDonors(request.BloodGroup);
+            var sender = this.userService.GetUserById(inputModel.AuthorId);
+            foreach (ApplicationUser receiver in allPotentialDonors)
+            {
+                this.SendEmail(sender, receiver, request.Description);
+            }
+        }
+
+        public Request GetRequestById(string id)
+        {
+            return this.dbContext.Requests.FirstOrDefault(x => x.Id == id);
         }
 
         public void SendEmail(ApplicationUser sender, ApplicationUser receiver, string mailDescription)
@@ -79,15 +106,21 @@
 
             // Init SmtpClient and send
             SmtpClient smtpClient = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
-            NetworkCredential credentials = new NetworkCredential("apikey", "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");
+            string username = Settings.GetSendGridUsername();
+            string password = Settings.GetSendGridPassword();
+            NetworkCredential credentials = new NetworkCredential(username, password);
             smtpClient.Credentials = credentials;
 
             smtpClient.Send(mailMsg);
         }
 
-        public void UnApplyForRequest(ApplicationUser user)
+        public void UnApplyForRequest(ApplicationUser currentUser, string requestId)
         {
-            throw new System.NotImplementedException();
+            UserRequest userRequest = this.dbContext.UserRequests
+                .FirstOrDefault(x => x.RequestId == requestId && x.UserId == currentUser.Id);
+
+            this.dbContext.UserRequests.Remove(userRequest);
+            this.dbContext.SaveChanges();
         }
     }
 }

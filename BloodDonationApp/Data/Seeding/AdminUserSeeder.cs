@@ -17,13 +17,24 @@
         {
             var user = new ApplicationUser
             {
-                UserName = "Admin",
+                UserName = "admin@blood.com",
                 Email = "admin@blood.com",
-                FirstName = "Admin",
-                LastName = "Admin",
+                FirstName = "SystemAdmin",
+                LastName = "SystemAdmin",
+                Town = "Blagoevgrad"
             };
 
-            var result = await this.userManager.CreateAsync(user, "systemadmin1");
+            var result = await this.userManager.CreateAsync(user, "SystemAdmin123+");
+            var secResult = await this.userManager.AddToRoleAsync(user, "SystemAdmin");
+
+            if (secResult.Succeeded)
+            {
+                System.Console.WriteLine(5);
+            }
+            else
+            {
+                System.Console.WriteLine(7);
+            }
         }
     }
 }

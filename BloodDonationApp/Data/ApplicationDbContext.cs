@@ -1,11 +1,9 @@
 ﻿namespace BloodDonationApp.Data
 {
     using BloodDonationApp.Models.DbModels;
-    using BloodDonationApp.Models.DbModels.Contracts;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
-
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
@@ -59,7 +57,6 @@
               .HasOne(ur => ur.Request)
               .WithMany(u => u.UserRequests)
               .HasForeignKey(u => u.RequestId);
-
         }
     }
 }

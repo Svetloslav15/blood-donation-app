@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class UserRolesSeeder : ISeeder
+    public class AAUserRolesSeeder : ISeeder
     {
         private readonly ApplicationDbContext context;
 
-        public UserRolesSeeder(ApplicationDbContext context)
+        public AAUserRolesSeeder(ApplicationDbContext context)
         {
             this.context = context;
         }

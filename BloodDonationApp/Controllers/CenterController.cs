@@ -4,17 +4,20 @@
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Models.ViewModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class CenterController : Controller
     {
         private ICenterService centerService;
-
-        public CenterController(ICenterService centerService)
+        private UserManager<ApplicationUser> userManager;
+        public CenterController(ICenterService centerService, UserManager<ApplicationUser> userManager)
         {
             this.centerService = centerService;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -70,10 +73,12 @@
             return this.Redirect("/Center/Index");
         }
         
-        public IActionResult Details(string id)
+        public async Task<IActionResult> Details(string id)
         {
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
+            ViewData["CurrentUserId"] = user.Id;
             Center center = this.centerService.GetCenterById(id);
-            CenterInputModel centerInputModel = new CenterInputModel()
+            CenterViewModel centerViewModel = new CenterViewModel()
             {
                 Id = center.Id,
                 Name = center.Name,
@@ -81,9 +86,10 @@
                 PhoneNumber = center.PhoneNumber,
                 Email = center.Email,
                 Town = center.Town,
+                Requests = center.Requests.ToList()
             };
 
-            return this.View(centerInputModel);
+            return this.View(centerViewModel);
         }
     }
 }

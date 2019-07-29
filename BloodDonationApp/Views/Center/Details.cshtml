@@ -1,54 +1,126 @@
-﻿@model BloodDonationApp.Models.InputModels.CenterInputModel
+﻿@model BloodDonationApp.Models.ViewModels.CenterViewModel
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row jumbotron mx-auto">
-        <h2 class="text-center mx-auto">Details about @Model.Name</h2>
-        <div class="col-md-12 mx-auto mx-auto">
-                <div class="col-lg-12 row">
-                    <input asp-for="Id" type="hidden" value="@Model.Id">
-                    <div class="col-lg-5 mx-auto">
-                        <div class="md-form">
-                            <input asp-for="Name" type="text" disabled="disabled" id="Name" class="form-control" value="@Model.Name">
-                            <label asp-for="Name" for="Name"></label>
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 row">
-                    <div class="col-lg-5 mx-auto">
-                        <div class="md-form">
-                            <input asp-for="Town"  disabled="disabled" type="text" id="Town" class="form-control" value="@Model.Town">
-                            <label asp-for="Town" for="Town"></label>
-                            <span asp-validation-for="Town" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 mx-auto">
-                        <div class="md-form">
-                            <input asp-for="Address"  disabled="disabled" type="text" id="Address" class="form-control" value="@Model.Address">
-                            <label asp-for="Address" for="Address"></label>
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-12 row">
-                    <div class="col-lg-5 mx-auto">
-                        <div class="md-form">
-                            <input asp-for="PhoneNumber"  disabled="disabled" type="text" id="PhoneNumber" class="form-control" value="@Model.PhoneNumber">
-                            <label asp-for="PhoneNumber" for="PhoneNumber"></label>
-                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-lg-5 mx-auto">
-                        <div class="md-form">
-                            <input asp-for="Email"  disabled="disabled" type="text" id="Email" class="form-control" value="@Model.Email">
-                            <label asp-for="Email" for="Email"></label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
+<div class="row jumbotron mx-auto">
+    <h2 class="text-center mx-auto">Details about @Model.Name</h2>
+    <div class="col-md-12 mx-auto mx-auto">
+        <div class="col-lg-12 row">
+            <input asp-for="Id" type="hidden" value="@Model.Id">
+            <div class="col-lg-5 mx-auto">
+                <div class="md-form">
+                    <input asp-for="Name" type="text" disabled="disabled" id="Name" class="form-control" value="@Model.Name">
+                    <label asp-for="Name" for="Name"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12 row">
+            <div class="col-lg-5 mx-auto">
+                <div class="md-form">
+                    <input asp-for="Town" disabled="disabled" type="text" id="Town" class="form-control" value="@Model.Town">
+                    <label asp-for="Town" for="Town"></label>
+                    <span asp-validation-for="Town" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-5 mx-auto">
+                <div class="md-form">
+                    <input asp-for="Address" disabled="disabled" type="text" id="Address" class="form-control" value="@Model.Address">
+                    <label asp-for="Address" for="Address"></label>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 row">
+            <div class="col-lg-5 mx-auto">
+                <div class="md-form">
+                    <input asp-for="PhoneNumber" disabled="disabled" type="text" id="PhoneNumber" class="form-control" value="@Model.PhoneNumber">
+                    <label asp-for="PhoneNumber" for="PhoneNumber"></label>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-5 mx-auto">
+                <div class="md-form">
+                    <input asp-for="Email" disabled="disabled" type="text" id="Email" class="form-control" value="@Model.Email">
+                    <label asp-for="Email" for="Email"></label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <h3 class="text-center mt-2 mb-5">Requests</h3>
+
+            @if (Model.Requests.Count() == 0)
+            {
+                <h4 class="text-center bg-danger text-white p-3">No requests yet!</h4>
+            }
+            else
+            {
+                <table id="dtBasicExample" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th class="th-sm text-center">
+                                Description
+                            </th>
+                            <th class="th-sm text-center">
+                                Blood Group
+                            </th>
+                            <th class="th-sm text-center">
+                               Appliers
+                            </th>
+                            <th class="th-sm text-center">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Requests)
+                        {
+                            <tr>
+                                <td>@item.Description</td>
+                                <td class="text-center">@item.BloodGroup</td>
+                                <td class="text-center">@item.UserRequests.Count()</td>
+                                <td class="text-center">
+                                    @if (item.UserRequests.Any(x => x.UserId == ViewData["CurrentUserId"].ToString()))
+                                    {
+                                        <a asp-controller="Request" asp-action="UnApply" asp-route-centerId="@Model.Id" asp-route-requestId="@item.Id">
+                                            <span class="btn btn-floating btn-danger" data-toggle="tooltip"
+                                                  data-placement="top" title="Unapply for request">
+                                                Unapply
+                                            </span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Request" asp-action="Apply" asp-route-centerId="@Model.Id" asp-route-requestId="@item.Id">
+                                            <span class="btn btn-floating btn-primary" data-toggle="tooltip"
+                                                  data-placement="top" title="Apply for request">
+                                                Apply
+                                            </span>
+                                        </a>
+                                    }
+                                    <a asp-controller="Request" asp-action="Edit" asp-route-id="@item.Id">
+                                        <span class="btn btn-floating btn-outline-warning waves-effect" data-toggle="tooltip"
+                                              data-placement="top" title="Edit request">
+                                            <i class="fas fa-edit"></i>
+                                        </span>
+                                    </a>
+                                    <a asp-controller="Request" asp-action="Delete" asp-route-centerId="@Model.Id" asp-route-id="@item.Id">
+                                        <span class="btn btn-floating btn-outline-danger waves-effect" data-toggle="tooltip"
+                                              data-placement="top" title="Delete request">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
     </div>
+</div>

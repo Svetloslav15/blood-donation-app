@@ -7,13 +7,15 @@
     {
         void AddNewRequestToCenter(RequestInputModel inputModel);
         
-        void ApplyForRequest(ApplicationUser user);
+        void ApplyForRequest(ApplicationUser currentUser, string requestId);
 
-        void UnApplyForRequest(ApplicationUser user);
+        void UnApplyForRequest(ApplicationUser currentUser, string requestId);
 
-        void EditRequest(RequestInputModel inputModel);
+        void EditRequest(string requestId, RequestInputModel inputModel);
 
         void DeleteRequest(string id);
+
+        Request GetRequestById(string id);
 
         void SendEmail(ApplicationUser sender, ApplicationUser receiver, string mailDescription);
     }
