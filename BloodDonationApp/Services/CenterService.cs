@@ -62,5 +62,10 @@
                     .ThenInclude(r => r.UserRequests)
                 .FirstOrDefault(x => x.Id == id);
         }
+
+        public Center GetCenterByName(string name)
+        {
+            return this.dbContext.Centers.FirstOrDefault(x => x.Name == name);
+        }
     }
 }

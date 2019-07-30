@@ -10,5 +10,9 @@
         ApplicationUser GetUserById(string id);
 
         ICollection<ApplicationUser> GetAllUsers();
+
+        void MakeUserAdmin(string userId, string centerId);
+
+        void RemoveUserAdmin(string userId);
     }
 }

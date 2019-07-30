@@ -39,8 +39,21 @@
 
         public ApplicationUser GetUserById(string id)
         {
-            return this.dbContext.Users
-                .FirstOrDefault(x => x.Id == id);
+            return this.dbContext.Users.FirstOrDefault(x => x.Id == id);
+        }
+
+        public void MakeUserAdmin(string userId, string centerId)
+        {
+            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            user.AdminCenterId = centerId;
+            this.dbContext.SaveChanges();
+        }
+
+        public void RemoveUserAdmin(string userId)
+        {
+            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            user.AdminCenterId = null;
+            this.dbContext.SaveChanges();
         }
 
         private List<string> GetPossibleBloodGroups(string bloodGroup)

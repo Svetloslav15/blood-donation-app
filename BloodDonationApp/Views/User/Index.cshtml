@@ -25,19 +25,44 @@
                     <td>
                         @if (user.IsInRole)
                         {
-                        <span class="btn btn-danger">
-                            <a class="text-white" asp-controller="User" asp-action="RemoveAdminRights" asp-route-Id="@user.Id">
-                                Remove Admin Rights
-                            </a>
-                        </span>
+                            <span class="btn btn-danger">
+                                <a class="text-white" asp-controller="User" asp-action="RemoveAdminRights" asp-route-id="@user.Id">
+                                    Remove Admin Rights
+                                </a>
+                            </span>
                         }
                         else
                         {
-                            <span class="btn btn-danger">
-                                <a class="text-white" asp-controller="User" asp-action="GiveAdminRights" asp-route-Id="@user.Id">
-                                    Give Admin Rights
-                                </a>
-                            </span>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#a_@user.Id">
+                                Give Admin Rights
+                            </button>
+
+                            <div class="modal fade" id="a_@user.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <form asp-controller="User" asp-route-userId="@user.Id" asp-action="GiveAdminRights" method="post">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title text-center" id="exampleModalLabel">Choose Center</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <select class="form-control mdb-select" name="centerName" id="centerName">
+                                                    @foreach (var center in Model.Centers)
+                                                    {
+                                                        <option>@center.Name</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-outline-danger mx-auto">Submit</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         }
                     </td>
                 </tr>

@@ -22,16 +22,21 @@
             this.centerService = centerService;
             this.userManager = userManager;
         }
-        public async Task<IActionResult> GiveAdminRights(string id)
+
+        [HttpPost]
+        public async Task<IActionResult> GiveAdminRights(string userId, string centerName)
         {
-            ApplicationUser user = this.userService.GetUserById(id);
+            ApplicationUser user = this.userService.GetUserById(userId);
+            Center center = this.centerService.GetCenterByName(centerName);
             await this.userManager.AddToRoleAsync(user, "CenterAdmin");
+            this.userService.MakeUserAdmin(user.Id, center.Id);
             return this.Redirect("/User/Index");
         }
        
         public async Task<IActionResult> RemoveAdminRights(string id)
         {
             ApplicationUser user = this.userService.GetUserById(id);
+            this.userService.RemoveUserAdmin(user.Id);
             await this.userManager.RemoveFromRoleAsync(user, "CenterAdmin");
             return this.Redirect("/User/Index");
         }

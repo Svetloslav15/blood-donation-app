@@ -15,5 +15,7 @@
         Center GetCenterById(string id);
 
         void DeleteCenterById(string id);
+
+        Center GetCenterByName(string name);
     }
 }
