@@ -3,6 +3,7 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.ViewModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
@@ -23,6 +24,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         [HttpPost]
         public async Task<IActionResult> GiveAdminRights(string userId, string centerName)
         {
@@ -32,7 +34,8 @@
             this.userService.MakeUserAdmin(user.Id, center.Id);
             return this.Redirect("/User/Index");
         }
-       
+
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> RemoveAdminRights(string id)
         {
             ApplicationUser user = this.userService.GetUserById(id);
@@ -41,6 +44,7 @@
             return this.Redirect("/User/Index");
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         public async Task<IActionResult> Index()
         {
             var users = this.userService.GetAllUsers();

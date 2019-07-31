@@ -4,6 +4,7 @@
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Models.ViewModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
@@ -37,12 +38,14 @@
             }).ToList();
             return View(new AllCentersViewModel() { Centers = centerModels });
         }
-        
+
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult Create()
         {
             return this.View();   
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         [HttpPost]
         public IActionResult Create(CenterInputModel inputModel)
         {
@@ -53,6 +56,7 @@
             return this.Redirect("/");
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult Edit(string id)
         {
             Center center = this.centerService.GetCenterById(id);
@@ -69,6 +73,7 @@
             return this.View(centerInputModel);
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         [HttpPost]
         public IActionResult Edit(CenterInputModel inputModel)
         {
@@ -79,6 +84,7 @@
             return this.Redirect("/");
         }
 
+        [Authorize(Roles = "SystemAdmin")]
         public IActionResult Delete(string id)
         {
             this.centerService.DeleteCenterById(id);
@@ -98,7 +104,8 @@
                 PhoneNumber = center.PhoneNumber,
                 Email = center.Email,
                 Town = center.Town,
-                Requests = center.Requests.ToList()
+                Requests = center.Requests.ToList(),
+                IsCurrentUserCenterAdmin = (user.AdminCenterId == center.Id) ? true : false
             };
 
             return this.View(centerViewModel);

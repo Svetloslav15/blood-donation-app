@@ -31,6 +31,7 @@
             return View();
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         [HttpPost]
         public IActionResult Create(RequestInputModel inputModel)
         {
@@ -41,6 +42,7 @@
             return this.Redirect("/");
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public async Task<IActionResult> Edit(string id)
         {
             var me = await this.userManager.GetUserAsync(HttpContext.User);
@@ -57,6 +59,7 @@
             return this.View(model);
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         [HttpPost]
         public IActionResult Edit(RequestInputModel inputModel)
         {
@@ -67,6 +70,7 @@
             return this.Redirect("/Center/Details/" + inputModel.CenterId);
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public IActionResult Delete(string centerId, string id)
         {
             this.requestService.DeleteRequest(id);
@@ -89,6 +93,7 @@
             return this.Redirect("/Center/Details/" + centerId);
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public IActionResult Appliers(string requestId)
         {
             var users = this.requestService.Appliers(requestId);

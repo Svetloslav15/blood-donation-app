@@ -102,26 +102,30 @@
                                             </span>
                                         </a>
                                     }
-                                    <a asp-controller="Request" asp-action="Edit" asp-route-id="@item.Id">
-                                        <span class="btn btn-floating btn-outline-warning waves-effect" data-toggle="tooltip"
-                                              data-placement="top" title="Edit request">
-                                            <i class="fas fa-edit"></i>
-                                        </span>
-                                    </a>
-                                    <a asp-controller="Request" asp-action="Delete" asp-route-centerId="@Model.Id" asp-route-id="@item.Id">
-                                        <span class="btn btn-floating btn-outline-danger waves-effect" data-toggle="tooltip"
-                                              data-placement="top" title="Delete request">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </span>
-                                    </a>
-                                    <a asp-controller="Request" asp-action="Appliers" asp-route-requestId="@item.Id">
-                                        <span class="btn btn-floating btn-outline-primary waves-effect" data-toggle="tooltip"
-                                              data-placement="top" title="View Appliers">
-                                            <i class="fas fa-eye"></i>
-                                        </span>
-                                    </a>
-                                </td>
+                                    @if (this.User.IsInRole("SystemAdmin") || (this.User.IsInRole("CenterAdmin") && Model.IsCurrentUserCenterAdmin))
+                                    {
+                                        <a asp-controller="Request" asp-action="Edit" asp-route-id="@item.Id">
+                                            <span class="btn btn-floating btn-outline-warning waves-effect" data-toggle="tooltip"
+                                                  data-placement="top" title="Edit request">
+                                                <i class="fas fa-edit"></i>
+                                            </span>
+                                        </a>
+                                        <a asp-controller="Request" asp-action="Delete" asp-route-centerId="@Model.Id" asp-route-id="@item.Id">
+                                            <span class="btn btn-floating btn-outline-danger waves-effect" data-toggle="tooltip"
+                                                  data-placement="top" title="Delete request">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </span>
+                                        </a>
+                                        <a asp-controller="Request" asp-action="Appliers" asp-route-requestId="@item.Id">
+                                            <span class="btn btn-floating btn-outline-primary waves-effect" data-toggle="tooltip"
+                                                  data-placement="top" title="View Appliers">
+                                                <i class="fas fa-eye"></i>
+                                            </span>
+                                        </a>
+                                    }
+                                    </td>
                             </tr>
+
                         }
                     </tbody>
                 </table>
