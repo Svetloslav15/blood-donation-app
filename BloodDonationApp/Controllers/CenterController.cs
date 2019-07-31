@@ -20,10 +20,22 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var user = await this.userManager.GetUserAsync(HttpContext.User);
             ICollection<Center> centers = this.centerService.GetAllCenters();
-            return View(new AllCentersViewModel() { Centers = centers});
+            var centerModels = centers.Select(x => new CenterViewModel
+            {
+                Name = x.Name,
+                Town = x.Town, 
+                Id = x.Id, 
+                Address = x.Address, 
+                Email = x.Email,
+                PhoneNumber = x.PhoneNumber,
+                Requests = x.Requests.ToList(),
+                IsCurrentUserCenterAdmin = (user.AdminCenterId == x.Id) ? true : false
+            }).ToList();
+            return View(new AllCentersViewModel() { Centers = centerModels });
         }
         
         public IActionResult Create()

@@ -14,5 +14,7 @@
         void MakeUserAdmin(string userId, string centerId);
 
         void RemoveUserAdmin(string userId);
+
+        void Donate(string userId);
     }
 }

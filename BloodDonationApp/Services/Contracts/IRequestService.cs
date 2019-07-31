@@ -2,6 +2,7 @@
 {
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
+    using System.Collections.Generic;
 
     public interface IRequestService
     {
@@ -18,5 +19,7 @@
         Request GetRequestById(string id);
 
         void SendEmail(ApplicationUser sender, ApplicationUser receiver, string mailDescription);
+
+        IList<ApplicationUser> Appliers(string requestId);
     }
 }

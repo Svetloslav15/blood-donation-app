@@ -66,5 +66,11 @@
             };
             return View(viewModel);
         }
+
+        public IActionResult Donate(string userId, string requestId)
+        {
+            this.userService.Donate(userId);
+            return this.Redirect("/Request/Appliers?requestId=" + requestId);
+        }
     }
 }

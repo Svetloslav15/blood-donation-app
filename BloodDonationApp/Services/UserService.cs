@@ -3,13 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
     using BloodDonationApp.Data;
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Services.Contracts;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.EntityFrameworkCore;
 
     public class UserService : IUserService
     {
@@ -20,6 +17,15 @@
         {
             this.dbContext = dbContext;
             this.userManager = userManager;
+        }
+
+        public void Donate(string userId)
+        {
+            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            user.LastTimeDonated = DateTime.Now;
+            user.DonatedTimesCount++;
+
+            this.dbContext.SaveChanges();
         }
 
         public ICollection<ApplicationUser> GetAllPotentialDonors(string bloodGroup)

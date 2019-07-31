@@ -4,10 +4,13 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.EntityFrameworkCore;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
+    using System.Threading.Tasks;
 
     public class RequestService : IRequestService
     {
@@ -45,6 +48,13 @@
             }
         }
 
+        public IList<ApplicationUser> Appliers(string requestId)
+        {
+            return this.dbContext.Users
+                .Include(x => x.UserRequests)
+                .Where(x => x.UserRequests
+                    .Any(y => y.RequestId == requestId)).ToList();
+        }
         public void ApplyForRequest(ApplicationUser currentUser, string requestId)
         {
             UserRequest userRequest = new UserRequest()

@@ -17,6 +17,8 @@
 
         public string Email { get; set; }
 
+        public bool IsCurrentUserCenterAdmin { get; set; }
+
         public IList<Request> Requests { get; set; }
     }
 }

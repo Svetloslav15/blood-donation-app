@@ -2,9 +2,13 @@
 {
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
+    using BloodDonationApp.Models.ViewModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class RequestController : Controller
@@ -18,6 +22,7 @@
             this.userManager = userManager;
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public async Task<IActionResult> Create(string id)
         {
             var me = await this.userManager.GetUserAsync(HttpContext.User);
@@ -82,6 +87,27 @@
             this.requestService.UnApplyForRequest(currentUser, requestId);
 
             return this.Redirect("/Center/Details/" + centerId);
+        }
+
+        public IActionResult Appliers(string requestId)
+        {
+            var users = this.requestService.Appliers(requestId);
+            var usersModels = users.Select(x => new ApplierViewModel()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                PhoneNumber = x.PhoneNumber,
+                Email = x.Email,
+                Town = x.Town,
+                CanDonate = Math.Abs(((x.LastTimeDonated.Year - DateTime.Now.Year) * 12) + x.LastTimeDonated.Month - DateTime.Now.Month) >= 3
+            }).ToList();
+            AppliersViewModel viewModel = new AppliersViewModel()
+            {
+                Users = usersModels,
+                RequestId = requestId
+            };
+            return this.View(viewModel);
         }
     }
 }

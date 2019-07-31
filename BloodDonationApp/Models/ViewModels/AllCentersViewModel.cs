@@ -5,6 +5,6 @@
 
     public class AllCentersViewModel
     {
-        public ICollection<Center> Centers { get; set; }
+        public ICollection<CenterViewModel> Centers { get; set; }
     }
 }
