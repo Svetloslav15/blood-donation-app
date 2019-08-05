@@ -15,6 +15,8 @@
 
         public string Town { get; set; }
 
+        public string BloodGroup { get; set; }
+
         public bool CanDonate { get; set; }
     }
 }

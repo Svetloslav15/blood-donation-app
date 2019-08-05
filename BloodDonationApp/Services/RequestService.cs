@@ -10,20 +10,21 @@
     using System.Linq;
     using System.Net;
     using System.Net.Mail;
-    using System.Threading.Tasks;
 
     public class RequestService : IRequestService
     {
         private ApplicationDbContext dbContext;
         private ICenterService centerService;
         private IUserService userService;
+        private INotificationService notificationService;
 
         public RequestService(ApplicationDbContext dbContext, IUserService userService,
-                              ICenterService centerService)
+                              ICenterService centerService, INotificationService notificationService)
         {
             this.dbContext = dbContext;
             this.userService = userService;
             this.centerService = centerService;
+            this.notificationService = notificationService;
         }
 
         public void AddNewRequestToCenter(RequestInputModel inputModel)
@@ -44,6 +45,7 @@
             var sender = this.userService.GetUserById(inputModel.AuthorId);
             foreach (ApplicationUser receiver in allPotentialDonors)
             {
+                this.notificationService.AddNotification(request.Description, receiver.Id);
                 this.SendEmail(sender, receiver, request.Description);
             }
         }

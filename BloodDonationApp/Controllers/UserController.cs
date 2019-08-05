@@ -76,5 +76,11 @@
             this.userService.Donate(userId);
             return this.Redirect("/Request/Appliers?requestId=" + requestId);
         }
+
+        public async Task<IActionResult> MyProfile()
+        {
+            var currentUser = await this.userManager.GetUserAsync(HttpContext.User);
+            return this.View(currentUser);
+        }
     }
 }

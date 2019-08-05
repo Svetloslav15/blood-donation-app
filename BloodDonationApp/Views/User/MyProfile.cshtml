@@ -1,0 +1,21 @@
+﻿@model BloodDonationApp.Models.DbModels.ApplicationUser
+
+    <div class="jumbotron text-center">
+        <h2 class="mb-4">My Profile</h2>
+        <div class="row my-4">
+            <h4 class="col-lg-5 mx-auto">FirstName: @Model.FirstName</h4>
+            <h4 class="col-lg-5 mx-auto">FirstName: @Model.LastName</h4>
+        </div>
+        <div class="row my-4">
+            <h4 class="col-lg-5 mx-auto">Email: @Model.Email</h4>
+            <h4 class="col-lg-5 mx-auto">PhoneNumber: @Model.PhoneNumber</h4>
+        </div>
+        <div class="row my-4">
+            <h4 class="col-lg-5 mx-auto">Town: @Model.Town</h4>
+            <h4 class="col-lg-5 mx-auto">BloodGroup: <span class="text-danger f">@Model.BloodGroup</span></h4>
+        </div>
+        <div class="row my-4">
+            <h4 class="col-lg-5 mx-auto">DonationsCount: @Model.DonatedTimesCount</h4>
+            <h4 class="col-lg-5 mx-auto">Last Time Donated: @Model.LastTimeDonated.ToString("dd/MM/yyyy")</h4>
+        </div>
+    </div>

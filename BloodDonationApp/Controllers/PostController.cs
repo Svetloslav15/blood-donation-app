@@ -3,6 +3,7 @@
     using BloodDonationApp.Models.DbModels;
     using BloodDonationApp.Models.InputModels;
     using BloodDonationApp.Services.Contracts;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
@@ -24,12 +25,13 @@
             var posts = this.postService.GetAll().ToList();
             return View(posts);
         }
-
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public IActionResult Create()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         [HttpPost]
         public async Task<IActionResult> Create(PostInputModel model)
         {
@@ -41,12 +43,14 @@
             return this.Redirect("/Post/Index");
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public IActionResult Delete(string id)
         {
             this.postService.DeletePostById(id);
             return this.Redirect("/Post/Index");
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         public IActionResult Edit(string id)
         {
             var post = this.postService.GetPostById(id);
@@ -59,6 +63,7 @@
             return this.View(postInputModel);
         }
 
+        [Authorize(Roles = "SystemAdmin,CenterAdmin")]
         [HttpPost]
         public IActionResult Edit(PostInputModel model)
         {

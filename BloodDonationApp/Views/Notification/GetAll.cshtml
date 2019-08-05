@@ -1,0 +1,17 @@
+﻿@model  System.Collections.Generic.List<BloodDonationApp.Models.DbModels.Notification>
+<div class="jumbotron">
+    <h2 class="text-center">Notifications</h2>
+    <div class="mt-4">
+        @if (Model.Count != 0)
+        {
+            @foreach (var item in Model)
+            {
+                <p class="bg-light my-2 text-center">@item.Content</p>
+            }
+        }
+        else
+        {
+            <h3 class="btn btn-outline-danger col-lg-12 my-3">No notifications yet!</h3>
+        }
+    </div>
+</div>

@@ -67,6 +67,7 @@
             services.AddTransient<IRequestService, RequestService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<INotificationService, NotificationService>();
 
             services.AddMvc(options =>
             {

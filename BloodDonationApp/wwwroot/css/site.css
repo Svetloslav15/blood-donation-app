@@ -61,3 +61,7 @@ body {
     border: 5px solid #dc3545;
     border-radius: 6px;
 }
+.bg-blood{
+    background-image: url("../bg.jpg");
+    background-repeat: initial;
+}

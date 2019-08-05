@@ -105,6 +105,7 @@
                 PhoneNumber = x.PhoneNumber,
                 Email = x.Email,
                 Town = x.Town,
+                BloodGroup = x.BloodGroup,
                 CanDonate = Math.Abs(((x.LastTimeDonated.Year - DateTime.Now.Year) * 12) + x.LastTimeDonated.Month - DateTime.Now.Month) >= 3
             }).ToList();
             AppliersViewModel viewModel = new AppliersViewModel()
