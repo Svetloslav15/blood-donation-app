@@ -55,13 +55,18 @@
         public Center EditCenter(CenterInputModel inputModel)
         {
             Center center = this.dbContext.Centers.FirstOrDefault(x => x.Id == inputModel.Id);
-            center.Name = inputModel.Name;
-            center.PhoneNumber = inputModel.PhoneNumber;
-            center.Email = inputModel.Email;
-            center.Address = inputModel.Address;
-            center.Town = inputModel.Town;
+            if (inputModel.Name.Trim() != "" && inputModel.Town.Trim() != "" &&
+                inputModel.Address.Trim() != "" && inputModel.PhoneNumber.Trim() != "" &&
+                inputModel.Email.Trim() != "")
+            {
+                center.Name = inputModel.Name;
+                center.PhoneNumber = inputModel.PhoneNumber;
+                center.Email = inputModel.Email;
+                center.Address = inputModel.Address;
+                center.Town = inputModel.Town;
 
-            this.dbContext.SaveChanges();
+                this.dbContext.SaveChanges();
+            }
 
             return center;
         }

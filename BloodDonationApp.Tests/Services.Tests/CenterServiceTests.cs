@@ -118,14 +118,39 @@ namespace BloodDonationApp.Tests
             centerTwoModel.Name = "New";
 
             ICenterService centerService = new CenterService(this.dbContext);
-            var result = centerService.GetAllCenters().Count();
-            Assert.True(result == 0, "Centers count is incorrect!");
-
             centerService.CreateCenter(centerModel);
             centerService.CreateCenter(centerTwoModel);
-            result = centerService.GetAllCenters().Count();
+            var result = centerService.GetAllCenters().Count();
 
-            Assert.True(result == 2, "Centers count is incorrect!");
+            Assert.True(result != 0, "Centers count is incorrect!");
+        }
+
+        [Fact]
+        public void TestEditCenterCorrectly()
+        {
+            CenterInputModel centerModel = this.GetInputModel();
+
+            ICenterService centerService = new CenterService(this.dbContext);
+            Center currentlyAdded = centerService.CreateCenter(centerModel);
+            centerModel.Name = "NameEdited";
+            centerModel.Id = currentlyAdded.Id;
+            Center result = centerService.EditCenter(centerModel);
+
+            Assert.True(result.Name == "NameEdited");
+        }
+
+        [Fact]
+        public void TestEditCenterShouldNotEditWhenFieldIsEmpty()
+        {
+            CenterInputModel centerModel = this.GetInputModel();
+
+            ICenterService centerService = new CenterService(this.dbContext);
+            Center currentlyAdded = centerService.CreateCenter(centerModel);
+            centerModel.Name = "";
+            centerModel.Id = currentlyAdded.Id;
+            Center result = centerService.EditCenter(centerModel);
+
+            Assert.True(result.Name == "SecondCenter");
         }
 
         private CenterInputModel GetInputModel()
