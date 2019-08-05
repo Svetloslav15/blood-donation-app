@@ -6,15 +6,15 @@
 
     public interface ICenterService
     {
-        void CreateCenter(CenterInputModel inputModel);
+        Center CreateCenter(CenterInputModel inputModel);
 
         ICollection<Center> GetAllCenters();
 
-        void EditCenter(CenterInputModel inputModel);
+        Center EditCenter(CenterInputModel inputModel);
 
         Center GetCenterById(string id);
 
-        void DeleteCenterById(string id);
+        Center DeleteCenterById(string id);
 
         Center GetCenterByName(string name);
     }

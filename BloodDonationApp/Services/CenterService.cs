@@ -17,28 +17,42 @@
         {
             this.dbContext = dbContext;
         }
-        public void CreateCenter(CenterInputModel inputModel)
+        public Center CreateCenter(CenterInputModel inputModel)
         {
-            Center center = new Center()
+            Center center = null;
+            if (inputModel.Name.Trim() != "" && inputModel.Town.Trim() != "" &&
+                inputModel.Address.Trim() != "" && inputModel.PhoneNumber.Trim() != "" &&
+                inputModel.Email.Trim() != "")
             {
-                Name = inputModel.Name,
-                Town = inputModel.Town,
-                Address = inputModel.Address,
-                PhoneNumber = inputModel.PhoneNumber,
-                Email = inputModel.Email
-            };
-            this.dbContext.Centers.Add(center);
-            this.dbContext.SaveChanges();
+                center = new Center()
+                {
+                    Name = inputModel.Name,
+                    Town = inputModel.Town,
+                    Address = inputModel.Address,
+                    PhoneNumber = inputModel.PhoneNumber,
+                    Email = inputModel.Email
+                };
+                this.dbContext.Centers.Add(center);
+                this.dbContext.SaveChanges();
+
+            }
+
+            return center;
         }
 
-        public void DeleteCenterById(string id)
+        public Center DeleteCenterById(string id)
         {
-            var centerToRemove = this.GetCenterById(id);
-            this.dbContext.Centers.Remove(centerToRemove);
-            this.dbContext.SaveChanges();
+            Center centerToRemove = this.GetCenterById(id);
+            if (centerToRemove != null)
+            {
+                this.dbContext.Centers.Remove(centerToRemove);
+                this.dbContext.SaveChanges();
+            }
+
+            return centerToRemove;
         }
 
-        public void EditCenter(CenterInputModel inputModel)
+        public Center EditCenter(CenterInputModel inputModel)
         {
             Center center = this.dbContext.Centers.FirstOrDefault(x => x.Id == inputModel.Id);
             center.Name = inputModel.Name;
@@ -48,6 +62,8 @@
             center.Town = inputModel.Town;
 
             this.dbContext.SaveChanges();
+
+            return center;
         }
 
         public ICollection<Center> GetAllCenters()

@@ -15,6 +15,7 @@
         [Key]
         public string Id { get; set; }
 
+        [Required]
         public string Description { get; set; }
 
         public string CenterId { get; set; }
