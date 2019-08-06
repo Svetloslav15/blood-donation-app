@@ -66,6 +66,90 @@
             Assert.Null(result);
         }
 
+        [Fact]
+        public void TestGetPostByIdShouldWorkCorrectly()
+        {
+            PostInputModel model = new PostInputModel()
+            {
+                Title = "Some more text",
+                Description = "Some more description"
+            };
+
+            Post post = this.postService.Create(model, "12");
+            Post result = this.postService.GetPostById(post.Id);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void TestGetPostByIdShouldWorkWithInvalidId()
+        {
+            PostInputModel model = new PostInputModel()
+            {
+                Title = "Some more text",
+                Description = "Some more description"
+            };
+
+            Post post = this.postService.Create(model, "112");
+            Post result = this.postService.GetPostById("dsffvdv542");
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void TestDeletePostShouldWorkCorrectly()
+        {
+            PostInputModel model = new PostInputModel()
+            {
+                Title = "Some more text",
+                Description = "Some more description"
+            };
+
+            Post post = this.postService.Create(model, "12");
+            Post result = this.postService.DeletePostById(post.Id);
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void TestDeletePostShouldWorkCorrectlyWithInvalidId()
+        {
+            PostInputModel model = new PostInputModel()
+            {
+                Title = "Some more text fgdgd",
+                Description = "Some more description"
+            };
+
+            Post post = this.postService.Create(model, "12");
+            Post result = this.postService.DeletePostById("huiszdhvs");
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void TestEditPostShouldWorkCorrectly()
+        {
+            PostInputModel model = new PostInputModel()
+            {
+                Title = "Some more text fgdgd",
+                Description = "Some more description"
+            };
+
+            Post post = this.postService.Create(model, "12");
+            model.Title = "Edited";
+            model.Id = post.Id;
+            Post result = this.postService.EditPost(model);
+
+            Assert.True(result.Title == "Edited");
+        }
+
+        [Fact]
+        public void TestGetAllShouldWork()
+        {
+            var result = this.postService.GetAll();
+            Assert.True(result.Count >= 1);
+        }
+
         private ApplicationUser AddUser(string id, string username)
         {
             ApplicationUser user = new ApplicationUser

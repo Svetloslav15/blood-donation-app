@@ -37,8 +37,11 @@
         public Post DeletePostById(string id)
         {
             Post post = this.dbContext.Posts.FirstOrDefault(x => x.Id == id);
-            this.dbContext.Posts.Remove(post);
-            this.dbContext.SaveChanges();
+            if (post != null)
+            {
+                this.dbContext.Posts.Remove(post);
+                this.dbContext.SaveChanges();
+            }
             return post;
         }
 
