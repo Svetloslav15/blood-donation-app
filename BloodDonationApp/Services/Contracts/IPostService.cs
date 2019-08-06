@@ -11,11 +11,11 @@
 
         Post GetPostById(string id);
 
-        void Create(PostInputModel model, string authorId);
+        Post Create(PostInputModel model, string authorId);
 
-        void EditPost(PostInputModel model);
+        Post EditPost(PostInputModel model);
 
-        void DeletePostById(string id);
+        Post DeletePostById(string id);
 
     }
 }

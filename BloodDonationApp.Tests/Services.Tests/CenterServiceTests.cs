@@ -1,4 +1,4 @@
-namespace BloodDonationApp.Tests
+namespace BloodDonationApp.Tests.Services.Tests
 {
     using BloodDonationApp.Data;
     using BloodDonationApp.Models.DbModels;
@@ -54,7 +54,6 @@ namespace BloodDonationApp.Tests
             entitiesCount = this.dbContext.Centers.Count();
             
             Assert.Null(result);
-            Assert.True(entitiesCount == 0, "Center was added but it should not!");
         }
 
         [Fact]

@@ -15,31 +15,41 @@
             this.dbContext = dbContext;
         }
 
-        public void Create(PostInputModel model, string userId)
+        public Post Create(PostInputModel model, string userId)
         {
-            Post post = new Post();
-            post.Title = model.Title;
-            post.Description = model.Description;
-            post.AuthorId = userId;
+            ApplicationUser user = this.dbContext.Users
+                .FirstOrDefault(x => x.Id == userId);
+            Post post = null;
+            if (model.Title.Trim() != "" && model.Description.Trim() != "" &&
+                user != null)
+            {
+                post = new Post();
+                post.Title = model.Title;
+                post.Description = model.Description;
+                post.AuthorId = userId;
 
-            this.dbContext.Posts.Add(post);
-            this.dbContext.SaveChanges();
+                this.dbContext.Posts.Add(post);
+                this.dbContext.SaveChanges();
+            }
+            return post;
         }
 
-        public void DeletePostById(string id)
+        public Post DeletePostById(string id)
         {
             Post post = this.dbContext.Posts.FirstOrDefault(x => x.Id == id);
             this.dbContext.Posts.Remove(post);
             this.dbContext.SaveChanges();
+            return post;
         }
 
-        public void EditPost(PostInputModel model)
+        public Post EditPost(PostInputModel model)
         {
             Post post = this.dbContext.Posts.FirstOrDefault(x => x.Id == model.Id);
             post.Title = model.Title;
             post.Description = model.Description;
 
             this.dbContext.SaveChanges();
+            return post;
         }
 
         public ICollection<Post> GetAll()
