@@ -15,17 +15,23 @@
             this.dbContext = dbContext;
         }
 
-        public void AddNotification(string content, string userId)
+        public Notification AddNotification(string content, string userId)
         {
-            Notification notification = new Notification()
+            Notification notification = null;
+            var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
+            if (content.Trim() != "" && user != null)
             {
-                Content = content,
-                UserId = userId,
-                IsRead = false
-            };
+                notification = new Notification()
+                {
+                    Content = content,
+                    UserId = userId,
+                    IsRead = false
+                };
 
-            this.dbContext.Notifications.Add(notification);
-            this.dbContext.SaveChanges();
+                this.dbContext.Notifications.Add(notification);
+                this.dbContext.SaveChanges();
+            }
+            return notification;
         }
 
         public List<Notification> GetAllByUser(string userId)
@@ -42,17 +48,23 @@
                 .Count();
         }
 
-        public void ReadAllToUser(string userId)
+        public bool ReadAllToUser(string userId)
         {
             var notifications = this.dbContext.Notifications
                 .Where(x => x.UserId == userId)
                 .ToList();
 
-            foreach (var item in notifications)
+            if (notifications.Count() != 0)
             {
-                item.IsRead = true;
+                foreach (var item in notifications)
+                {
+                    item.IsRead = true;
+                }
+                this.dbContext.SaveChanges();
+                return true;
+
             }
-            this.dbContext.SaveChanges();
+            return false;
         }
     }
 }

@@ -7,9 +7,9 @@
     {
         List<Notification> GetAllByUser(string userId);
 
-        void ReadAllToUser(string userId);
+        bool ReadAllToUser(string userId);
 
-        void AddNotification(string content, string userId);
+        Notification AddNotification(string content, string userId);
 
         int GetUnreadedCount(string username);
     }

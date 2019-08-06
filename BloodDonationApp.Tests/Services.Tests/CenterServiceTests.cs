@@ -32,7 +32,6 @@ namespace BloodDonationApp.Tests
             int entitiesCount = this.dbContext.Centers.Count();
 
             Assert.NotNull(result);
-            //Assert.True(entitiesCount == 1, "Center was not added!");
         }
 
         [Fact]
