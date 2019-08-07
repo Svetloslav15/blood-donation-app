@@ -6,15 +6,15 @@
 
     public interface IRequestService
     {
-        void AddNewRequestToCenter(RequestInputModel inputModel);
+        bool AddNewRequestToCenter(RequestInputModel inputModel);
         
-        void ApplyForRequest(ApplicationUser currentUser, string requestId);
+        bool ApplyForRequest(ApplicationUser currentUser, string requestId);
 
-        void UnApplyForRequest(ApplicationUser currentUser, string requestId);
+        bool UnApplyForRequest(ApplicationUser currentUser, string requestId);
 
-        void EditRequest(string requestId, RequestInputModel inputModel);
+        bool EditRequest(string requestId, RequestInputModel inputModel);
 
-        void DeleteRequest(string id);
+        bool DeleteRequest(string id);
 
         Request GetRequestById(string id);
 

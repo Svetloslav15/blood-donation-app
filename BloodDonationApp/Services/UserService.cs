@@ -19,13 +19,15 @@
             this.userManager = userManager;
         }
 
-        public void Donate(string userId)
+        public bool Donate(string userId)
         {
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
             user.LastTimeDonated = DateTime.Now;
             user.DonatedTimesCount++;
 
             this.dbContext.SaveChanges();
+
+            return true;
         }
 
         public ICollection<ApplicationUser> GetAllPotentialDonors(string bloodGroup)
@@ -48,18 +50,20 @@
             return this.dbContext.Users.FirstOrDefault(x => x.Id == id);
         }
 
-        public void MakeUserAdmin(string userId, string centerId)
+        public ApplicationUser MakeUserAdmin(string userId, string centerId)
         {
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
             user.AdminCenterId = centerId;
             this.dbContext.SaveChanges();
+            return user;
         }
 
-        public void RemoveUserAdmin(string userId)
+        public ApplicationUser RemoveUserAdmin(string userId)
         {
             var user = this.dbContext.Users.FirstOrDefault(x => x.Id == userId);
             user.AdminCenterId = null;
             this.dbContext.SaveChanges();
+            return user;
         }
 
         private List<string> GetPossibleBloodGroups(string bloodGroup)

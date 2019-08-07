@@ -27,27 +27,32 @@
             this.notificationService = notificationService;
         }
 
-        public void AddNewRequestToCenter(RequestInputModel inputModel)
+        public bool AddNewRequestToCenter(RequestInputModel inputModel)
         {
             Center center = this.centerService.GetCenterById(inputModel.CenterId);
-
-            Request request = new Request()
+            Request request = null;
+            if (inputModel.Description.Trim() != "" && inputModel.BloodGroup.Trim() != "")
             {
-                Description = inputModel.Description,
-                Center = center,
-                BloodGroup = inputModel.BloodGroup
-            };
-            
-            this.dbContext.Requests.Add(request);
-            this.dbContext.SaveChanges();
+                request = new Request()
+                {
+                    Description = inputModel.Description,
+                    Center = center,
+                    BloodGroup = inputModel.BloodGroup
+                };
 
-            var allPotentialDonors = this.userService.GetAllPotentialDonors(request.BloodGroup);
-            var sender = this.userService.GetUserById(inputModel.AuthorId);
-            foreach (ApplicationUser receiver in allPotentialDonors)
-            {
-                this.notificationService.AddNotification(request.Description, receiver.Id);
-                this.SendEmail(sender, receiver, request.Description);
+                this.dbContext.Requests.Add(request);
+                this.dbContext.SaveChanges();
+
+                var allPotentialDonors = this.userService.GetAllPotentialDonors(request.BloodGroup);
+                var sender = this.userService.GetUserById(inputModel.AuthorId);
+                foreach (ApplicationUser receiver in allPotentialDonors)
+                {
+                    this.notificationService.AddNotification(request.Description, receiver.Id);
+                    this.SendEmail(sender, receiver, request.Description);
+                }
+                return true;
             }
+            return false;
         }
 
         public IList<ApplicationUser> Appliers(string requestId)
@@ -57,43 +62,58 @@
                 .Where(x => x.UserRequests
                     .Any(y => y.RequestId == requestId)).ToList();
         }
-        public void ApplyForRequest(ApplicationUser currentUser, string requestId)
+        public bool ApplyForRequest(ApplicationUser currentUser, string requestId)
         {
-            UserRequest userRequest = new UserRequest()
+            if (requestId != "")
             {
-                UserId = currentUser.Id,
-                RequestId = requestId
-            };
+                UserRequest userRequest = new UserRequest()
+                {
+                    UserId = currentUser.Id,
+                    RequestId = requestId
+                };
 
-            this.dbContext.UserRequests.Add(userRequest);
-            this.dbContext.SaveChanges();
+                this.dbContext.UserRequests.Add(userRequest);
+                this.dbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public void DeleteRequest(string id)
+        public bool DeleteRequest(string id)
         {
             var requestToRemove = this.GetRequestById(id);
-            this.dbContext.Requests.Remove(requestToRemove);
-            this.dbContext.SaveChanges();
+            if (requestToRemove != null)
+            {
+                this.dbContext.Requests.Remove(requestToRemove);
+                this.dbContext.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
-        public void EditRequest(string requestId, RequestInputModel inputModel)
+        public bool EditRequest(string requestId, RequestInputModel inputModel)
         {
             Center center = this.centerService.GetCenterById(inputModel.CenterId);
 
             Request request = this.dbContext.Requests.FirstOrDefault(x => x.Id == requestId);
 
-            request.Description = inputModel.Description;
-            request.Center = center;
-            request.BloodGroup = inputModel.BloodGroup;
-
-            this.dbContext.SaveChanges();
-
-            var allPotentialDonors = this.userService.GetAllPotentialDonors(request.BloodGroup);
-            var sender = this.userService.GetUserById(inputModel.AuthorId);
-            foreach (ApplicationUser receiver in allPotentialDonors)
+            if (request != null)
             {
-                this.SendEmail(sender, receiver, request.Description);
+                request.Description = inputModel.Description;
+                request.Center = center;
+                request.BloodGroup = inputModel.BloodGroup;
+
+                this.dbContext.SaveChanges();
+
+                var allPotentialDonors = this.userService.GetAllPotentialDonors(request.BloodGroup);
+                var sender = this.userService.GetUserById(inputModel.AuthorId);
+                foreach (ApplicationUser receiver in allPotentialDonors)
+                {
+                    this.SendEmail(sender, receiver, request.Description);
+                }
+                return true;
             }
+            return false;
         }
 
         public Request GetRequestById(string id)
@@ -126,13 +146,15 @@
             smtpClient.Send(mailMsg);
         }
 
-        public void UnApplyForRequest(ApplicationUser currentUser, string requestId)
+        public bool UnApplyForRequest(ApplicationUser currentUser, string requestId)
         {
             UserRequest userRequest = this.dbContext.UserRequests
                 .FirstOrDefault(x => x.RequestId == requestId && x.UserId == currentUser.Id);
 
             this.dbContext.UserRequests.Remove(userRequest);
             this.dbContext.SaveChanges();
+
+            return true;
         }
     }
 }

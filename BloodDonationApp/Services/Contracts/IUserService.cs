@@ -11,10 +11,10 @@
 
         ICollection<ApplicationUser> GetAllUsers();
 
-        void MakeUserAdmin(string userId, string centerId);
+        ApplicationUser MakeUserAdmin(string userId, string centerId);
 
-        void RemoveUserAdmin(string userId);
+        ApplicationUser RemoveUserAdmin(string userId);
 
-        void Donate(string userId);
+        bool Donate(string userId);
     }
 }
